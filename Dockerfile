@@ -2,8 +2,8 @@ FROM wooa/openjre-alpine:21
 
 WORKDIR /app
 
-COPY build/libs/*.jar app.jar
+COPY app.jar app.jar
 
-EXPOSE 8818
+EXPOSE 8080
 
 CMD ["java", "-jar", "app.jar"]
