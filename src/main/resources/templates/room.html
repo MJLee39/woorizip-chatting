@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Room</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header {
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .chat-body {
+      padding: 20px;
+      overflow-y: auto;
+      height: 300px;
+    }
+
+    .message-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+
+    .message.mine {
+      margin-right: auto;
+      background-color: #DCF8C6;
+    }
+
+    .message.yours {
+      margin-left: auto;
+      background-color: #F2F2F2;
+    }
+
+    .nickname {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .input-area {
+      padding: 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    .input-area input[type="text"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    .input-area input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="chat-header">
+    <h1>CHAT ROOM</h1>
+    <h2 th:text="'Room No. ' + ${chatRoomId}"></h2>
+    <h2 th:text="'Nickname = ' + ${nickname}"></h2>
+  </div>
+
+  <div class="chat-body" id="chat-body">
+    <!-- Chat messages will be displayed here -->
+  </div>
+
+  <div class="input-area">
+    <form id="message-form">
+      <input type="text" id="message" placeholder="Type your message here">
+      <input type="submit" value="Send">
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+<script th:inline="javascript">
+  const chatBody = document.getElementById('chat-body');
+  const messageForm = document.getElementById('message-form');
+  const messageContent = document.getElementById('message');
+
+  const chatRoomId = [[${chatRoomId}]];
+  const nickname = [[${nickname}]];
+
+  const sockJS = new SockJS("/stomp/chat");
+  const stomp = Stomp.over(sockJS);
+
+  stomp.heartbeat.outgoing = 0;
+  stomp.heartbeat.incoming = 0;
+
+  stomp.connect({id: 'guest', password: 'guest', Authorization: 'RIGHT_TOKEN'}, function (frame) {
+    console.log('STOMP Connected');
+    console.log(chatRoomId);
+
+    stomp.subscribe(`/exchange/chat.exchange/room.${chatRoomId}`, function (content) {
+      const payload = JSON.parse(content.body);
+      const className = payload.nickname === nickname ? 'mine' : 'yours';
+
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('message-container');
+      messageElement.innerHTML = `
+                <div class="message ${className}">
+                    <div class="nickname">${payload.nickname}</div>
+                    <div class="content">${payload.message}</div>
+                </div>
+            `;
+
+      chatBody.appendChild(messageElement);
+      chatBody.scrollTop = chatBody.scrollHeight; // Auto-scroll to the bottom
+    });
+
+    stomp.send(`/pub/chat.enter.${chatRoomId}`, {}, JSON.stringify({
+      chatRoomId: chatRoomId,
+      memberId: 1,
+      nickname: nickname
+    }));
+  });
+
+  messageForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const message = messageContent.value.trim();
+
+    if (message !== '') {
+      stomp.send(`/pub/chat.message.${chatRoomId}`, {}, JSON.stringify({
+        chatRoomId: chatRoomId,
+        message: message,
+        memberId: 1,
+        nickname: nickname
+      }));
+      messageContent.value = '';
+    }
+  });
+
+  const chatMessages = /*[[${chatMessages}]]*/ [];
+
+  chatMessages.forEach(message => {
+    const className = message.nickname === nickname ? 'mine' : 'yours';
+
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message-container');
+    messageElement.innerHTML = `
+                <div class="message ${className}">
+                    <div class="nickname">${message.nickname}</div>
+                    <div class="content">${message.message}</div>
+                </div>
+            `;
+
+    chatBody.appendChild(messageElement);
+    chatBody.scrollTop = chatBody.scrollHeight; // Auto-scroll to the bottom
+  });
+</script>
+
+</body>
+</html>
