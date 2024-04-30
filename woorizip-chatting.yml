@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-chatting
+spec:
+  selector:
+    matchLabels:
+      app: chatting
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: chatting
+    spec:
+      containers:
+      - name: zip
+        image: woorizip-zip-beta:0.0.1
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-zip
+spec:
+  selector:
+    app: chatting
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: NodePort

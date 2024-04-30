@@ -1,0 +1,60 @@
+server:
+  port: 8080
+
+spring:
+  cloud.vault:
+    host: testaws.teamwaf.app
+    token: hvs.moFEi0WpVCrsTtEyWBsjscah
+    scheme: http
+    kv:
+      enabled: true
+    authentication: token
+
+  data:
+    mongodb:
+      username: admin
+      password: admin
+      authentication-database: admin
+      host: 173.100.0.11
+      port: 27017
+      database: chatting
+
+    redis:
+      host: 173.100.0.11
+      port: 6379
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://173.100.0.12:3306/teamwafdb?useUnicode=true&serverTimezone=Asia/Seoul
+    username: teamwaf
+    password: dntmdrhkaudtjd12
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show-sql: true
+        format_sql: true
+    show-sql: true
+  rabbitmq:
+    username: teamwaf
+    password: dntmdrhkaudtjd12
+    host: rabbitmq-stomp-rabbitmq-ha-0.rabbitmq-stomp-rabbitmq-ha-discovery.rabbitmq-stomp.svc.cluster.local
+    port: 5672
+rabbitmq:
+  queue:
+    name: chat.queue
+  exchange:
+    name: chat.exchange
+  routing:
+    key: room.*
+
+grpc:
+  client:
+    auth-server:
+      address: 'static://localhost:50052'
+      negotiation-type: plaintext
+#    account-server:
+#      address: 'static://127.0.0.1:9092'
+#      negotiation-type: plaintext
