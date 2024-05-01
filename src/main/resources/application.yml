@@ -17,7 +17,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://173.100.0.12:3306/teamwafdb?useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://woorizip-database.c56y0ki2ky4c.ap-northeast-2.rds.amazonaws.com/teamwafdb?useUnicode=true&serverTimezone=Asia/Seoul
     username: teamwaf
     password: dntmdrhkaudtjd12
   jpa:
