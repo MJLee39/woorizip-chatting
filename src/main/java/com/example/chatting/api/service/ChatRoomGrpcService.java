@@ -7,11 +7,9 @@ import org.springframework.stereotype.Service;
 
 import net.devh.boot.grpc.client.inject.GrpcClient;
 
-import com.example.chatting.domain.chatRoom.ChatRoom;
 import com.example.grpc.account.AccountServiceGrpc;
 import com.example.grpc.account.GetAccountReq;
 import com.example.grpc.chat.ChatRoomGrpcServiceGrpc;
-import com.example.grpc.chat.ChatRoomInfoResponse;
 
 @Service
 public class ChatRoomGrpcService extends ChatRoomGrpcServiceGrpc.ChatRoomGrpcServiceImplBase {

@@ -11,16 +11,8 @@ spring:
     authentication: token
 
   data:
-    mongodb:
-      username: admin
-      password: admin
-      authentication-database: admin
-      host: 173.100.0.11
-      port: 27017
-      database: chatting
-
     redis:
-      host: 173.100.0.11
+      host: testaws.teamwaf.app
       port: 6379
 
   datasource:
@@ -43,12 +35,10 @@ spring:
     host: rabbitmq-stomp-rabbitmq-ha-0.rabbitmq-stomp-rabbitmq-ha-discovery.rabbitmq-stomp.svc.cluster.local
     port: 5672
 rabbitmq:
-  queue:
-    name: chat.queue
-  exchange:
-    name: chat.exchange
-  routing:
-    key: room.*
+  endpoint: /stomp/chat
+  queue.name: chat.queue
+  exchange.name: chat.exchange
+  routing.key: room.*
 
 grpc:
   client:
@@ -58,3 +48,11 @@ grpc:
 #    account-server:
 #      address: 'static://127.0.0.1:9092'
 #      negotiation-type: plaintext
+
+
+amazon:
+  dynamodb:
+    endpoint: dynamodb.ap-northeast-2.amazonaws.com
+  aws:
+    accesskey: AKIATCKASJX3SN66FXO2
+    secretkey: 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

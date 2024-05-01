@@ -24,13 +24,13 @@ public class SseEmitters {
 
 	private Map<String, List<SseEmitter>> emitters = new ConcurrentHashMap<>();
 
-	public void count(String chatRoomId, ChatMessage message) {
+	public void receiveMessage(String chatRoomId, ChatMessage message) {
 		this.emitters.get(chatRoomId).forEach(emitter -> {
 			try {
 				emitter.send(SseEmitter.event()
 						.name("chat")
 						.data(message));
-				emitter.complete();
+				// emitter.complete();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}

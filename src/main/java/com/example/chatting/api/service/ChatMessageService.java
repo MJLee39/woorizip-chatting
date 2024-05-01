@@ -5,6 +5,7 @@ import com.example.chatting.domain.message.ChatMessage;
 import com.example.chatting.domain.message.ChatMessageRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class
-ChatMessageService {
+public class ChatMessageService {
 
     private final SseEmitters sseEmitters;
     private final RabbitTemplate rabbitTemplate;
@@ -35,7 +35,7 @@ ChatMessageService {
     public void receiveMessage(ChatMessage message) {
         message.initChatMessageId(UUID.randomUUID().toString());
         message.createdAt(LocalDateTime.now());
-//        sseEmitters.count(message.getChatRoomId(), message);
+        sseEmitters.receiveMessage(message.getChatRoomId(), message);
         chatMessageRepository.save(message);
     }
 
@@ -44,7 +44,9 @@ ChatMessageService {
     }
 
     public String findLatestMessageInChatRoom(String chatRoomId) {
-        return chatMessageRepository.findLatestMessageInChatRoom(chatRoomId);
+        List<ChatMessage> chatMessages = new ArrayList<>(chatMessageRepository.findAllByChatRoomId(chatRoomId));
+        chatMessages.sort((chatMessage01, chatMessage02) -> chatMessage02.getCreatedAt().compareTo(chatMessage01.getCreatedAt()));
+        return chatMessages.get(0).getMessage();
     }
 
 }

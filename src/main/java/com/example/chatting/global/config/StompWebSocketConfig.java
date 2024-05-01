@@ -1,5 +1,6 @@
 package com.example.chatting.global.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -26,21 +27,39 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    @Value("${spring.rabbitmq.host}")
+    private String rabbitMQHost;
+
+    @Value("${spring.rabbitmq.port}")
+    private int rabbitMQPort;
+
+    @Value("${spring.rabbitmq.username}")
+    private String rabbitMQUsername;
+
+    @Value("${spring.rabbitmq.password}")
+    private String rabbitMQPassword;
+
+    @Value("${rabbitmq.endpoint}")
+    private String rabbitMQEndPoint;
+
+    @Value("${rabbitmq.exchange.name}")
+    private String rabbitMQExchangeName;
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
-                .addEndpoint("/stomp/chat")
+                .addEndpoint(rabbitMQEndPoint)
                 .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableStompBrokerRelay("/exchange")
-                .setRelayHost("173.100.0.11")
-                .setRelayPort(61613)
-                .setClientPasscode("guest")
-                .setClientLogin("guest");
+        config.enableStompBrokerRelay(rabbitMQExchangeName)
+                .setRelayHost(rabbitMQHost)
+                .setRelayPort(rabbitMQPort)
+                .setClientLogin(rabbitMQUsername)
+                .setClientPasscode(rabbitMQPassword);
 
         config.setPathMatcher(new AntPathMatcher("."));
         config.setApplicationDestinationPrefixes("/pub");

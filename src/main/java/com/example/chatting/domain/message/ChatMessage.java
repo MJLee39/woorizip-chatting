@@ -2,31 +2,34 @@ package com.example.chatting.domain.message;
 
 import java.time.LocalDateTime;
 
-import lombok.ToString;
-import org.springframework.cglib.core.Local;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Setter;
 
-import jakarta.persistence.Id;
-import lombok.AccessLevel;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
-@ToString
-@Document(collection = "chat-message")
+@Setter
+@DynamoDBTable(tableName = "chatmessages")
 public class ChatMessage {
 
-    @Id
+    @DynamoDBHashKey(attributeName = "id")
     private String id;
-    private String chatRoomId;
-    private String accountId;
-    private String nickname;
-    private String message;
 
+    @DynamoDBAttribute private String chatRoomId;
+    @DynamoDBAttribute private String accountId;
+    @DynamoDBAttribute private String nickname;
+    @DynamoDBAttribute private String message;
+
+    @DynamoDBTypeConverted(converter = LocalDateTimeConverter.class)
     private LocalDateTime createdAt;
 
     public void initChatMessageId(String id) {
@@ -35,6 +38,21 @@ public class ChatMessage {
 
     public void createdAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    static public class LocalDateTimeConverter implements DynamoDBTypeConverter<String, LocalDateTime> {
+
+        @Override
+        public String convert( final LocalDateTime time ) {
+
+            return time.toString();
+        }
+
+        @Override
+        public LocalDateTime unconvert( final String stringValue ) {
+
+            return LocalDateTime.parse(stringValue);
+        }
     }
 
 }

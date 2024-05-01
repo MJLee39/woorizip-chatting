@@ -27,7 +27,6 @@ public class ReportController {
     @CrossOrigin("*")
     @PostMapping(value = "/all/size")
     public ResponseEntity<List<ReportDTO.GetAllReportResponseDTO>> getAllReportSize(@RequestBody ReportDTO.GetAllReportRequestDTO request) {
-        log.info("===========> Redis ==========>");
         return ResponseEntity.ok(reportService.getAllReportByAccountId(request.getAllAccountId()));
     }
 

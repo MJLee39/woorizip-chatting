@@ -10,15 +10,17 @@ import com.example.chatting.domain.chatRoom.ChatRoom;
 import com.example.chatting.domain.chatRoom.ChatRoomRepository;
 import com.example.chatting.domain.message.ChatMessage;
 import com.example.chatting.domain.message.ChatMessageRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -105,11 +107,12 @@ public class ChatRoomController {
 
     @CrossOrigin("*")
     @GetMapping(value = "/room")
-    public ResponseEntity<ChatRoomResponseDTO> enterRoom(@RequestParam String chatRoomId){
+    public ResponseEntity<ChatRoomResponseDTO> enterRoom(@RequestParam String chatRoomId) {
         ChatRoomResponseDTO chatRoom = chatRoomService.findBy(chatRoomId);
 
-        List<ChatMessage> chatMessageInRoom = chatMessageService.findAllChatMessageBy(chatRoomId);
+        List<ChatMessage> chatMessageInRoom = new ArrayList<>(chatMessageService.findAllChatMessageBy(chatRoomId));
         if (!chatMessageInRoom.isEmpty()) {
+            chatMessageInRoom.sort(Comparator.comparing(ChatMessage::getCreatedAt));
             chatRoom.setChatMessagesInRoom(chatMessageInRoom);
         }
 
