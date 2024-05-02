@@ -32,8 +32,7 @@ spring:
   rabbitmq:
     username: guest
     password: guest
-#    host: rabbitmq-stomp-rabbitmq-ha-0.rabbitmq-stomp-rabbitmq-ha-discovery.rabbitmq-stomp.svc.cluster.local
-    host: localhost
+    host: rabbitmq-stomp-rabbitmq-ha-0.rabbitmq-stomp-rabbitmq-ha-discovery.rabbitmq-stomp.svc.cluster.local
     port: 5672
 rabbitmq:
   endpoint: /stomp/chat
@@ -46,9 +45,9 @@ grpc:
 #    auth-server:
 #      address: 'static://localhost:50052'
 #      negotiation-type: plaintext
-    account-server:
-      address: 'static://<service-name>.<namespace-name>.svc.cluster.local'
-      negotiation-type: plaintext
+#    account-server:
+#      address: 'static://<service-name>.<namespace-name>.svc.cluster.local'
+#      negotiation-type: plaintext
 
 
 amazon:
