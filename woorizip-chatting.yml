@@ -5,28 +5,28 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: chattingapp
+      app: chatting
   replicas: 1
   template:
     metadata:
       labels:
-        app: chattingapp
+        app: chatting
     spec:
       containers:
-      - name: chatting
-        image: 211125685751.dkr.ecr.ap-northeast-2.amazonaws.com/woorizip-chatting:20240502022359
-        ports:
-        - containerPort: 8080
+        - name: chattingapp
+          image: 211125685751.dkr.ecr.ap-northeast-2.amazonaws.com/helloworld:20240502013148
+          ports:
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-chatting
+  name: service-helloworld
 spec:
   selector:
-    app: chattingapp
+    app: chatting
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8080
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
   type: NodePort
