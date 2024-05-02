@@ -30,9 +30,10 @@ spring:
         format_sql: true
     show-sql: true
   rabbitmq:
-    username: teamwaf
-    password: dntmdrhkaudtjd12
-    host: rabbitmq-stomp-rabbitmq-ha-0.rabbitmq-stomp-rabbitmq-ha-discovery.rabbitmq-stomp.svc.cluster.local
+    username: guest
+    password: guest
+#    host: rabbitmq-stomp-rabbitmq-ha-0.rabbitmq-stomp-rabbitmq-ha-discovery.rabbitmq-stomp.svc.cluster.local
+    host: localhost
     port: 5672
 rabbitmq:
   endpoint: /stomp/chat

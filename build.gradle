@@ -45,8 +45,6 @@ dependencies {
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
     // https://mvnrepository.com/artifact/org.webjars/sockjs-client
     implementation group: 'org.webjars', name: 'sockjs-client', version: '1.1.2'
@@ -70,6 +68,9 @@ dependencies {
     implementation platform("org.springframework.data:spring-data-releasetrain:Lovelace-SR16")
     implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.64'
     implementation 'io.github.boostchicken:spring-data-dynamodb:5.2.5'
+
+    // Loki
+    implementation 'com.github.loki4j:loki-logback-appender:1.4.1'
 
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
