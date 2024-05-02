@@ -43,12 +43,12 @@ rabbitmq:
 
 grpc:
   client:
-    auth-server:
-      address: 'static://localhost:50052'
-      negotiation-type: plaintext
-#    account-server:
-#      address: 'static://127.0.0.1:9092'
+#    auth-server:
+#      address: 'static://localhost:50052'
 #      negotiation-type: plaintext
+    account-server:
+      address: 'static://<service-name>.<namespace-name>.svc.cluster.local'
+      negotiation-type: plaintext
 
 
 amazon:
