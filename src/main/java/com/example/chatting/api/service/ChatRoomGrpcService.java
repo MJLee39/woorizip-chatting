@@ -9,10 +9,9 @@ import net.devh.boot.grpc.client.inject.GrpcClient;
 
 import com.example.grpc.account.AccountServiceGrpc;
 import com.example.grpc.account.GetAccountReq;
-import com.example.grpc.chat.ChatRoomGrpcServiceGrpc;
 
 @Service
-public class ChatRoomGrpcService extends ChatRoomGrpcServiceGrpc.ChatRoomGrpcServiceImplBase {
+public class ChatRoomGrpcService {
 
 	@GrpcClient(value = "account-server")
 	private AccountServiceGrpc.AccountServiceBlockingStub accountServiceBlockingStub;
