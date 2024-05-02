@@ -30,8 +30,8 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${spring.rabbitmq.host}")
     private String rabbitMQHost;
 
-    @Value("${spring.rabbitmq.port}")
-    private int rabbitMQPort;
+    @Value("${rabbitmq.stomp-port}")
+    private int rabbitMQStompPort;
 
     @Value("${spring.rabbitmq.username}")
     private String rabbitMQUsername;
@@ -48,16 +48,16 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
-                .addEndpoint(rabbitMQEndPoint)
-                .setAllowedOriginPatterns("*")
-                .withSockJS();
+            .addEndpoint(rabbitMQEndPoint)
+            .setAllowedOriginPatterns("*")
+            .withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableStompBrokerRelay(rabbitMQExchangeName)
                 .setRelayHost(rabbitMQHost)
-                .setRelayPort(rabbitMQPort)
+                .setRelayPort(rabbitMQStompPort)
                 .setClientLogin(rabbitMQUsername)
                 .setClientPasscode(rabbitMQPassword);
 

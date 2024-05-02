@@ -33,6 +33,7 @@ public class ChatMessageService {
 
     @RabbitListener(queues = "${rabbitmq.queue.name}")
     public void receiveMessage(ChatMessage message) {
+        log.info(message.toString());
         message.initChatMessageId(UUID.randomUUID().toString());
         message.createdAt(LocalDateTime.now());
         sseEmitters.receiveMessage(message.getChatRoomId(), message);

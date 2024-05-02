@@ -70,7 +70,7 @@ dependencies {
     implementation 'io.github.boostchicken:spring-data-dynamodb:5.2.5'
 
     // Loki
-    implementation 'com.github.loki4j:loki-logback-appender:1.4.1'
+//    implementation 'com.github.loki4j:loki-logback-appender:1.4.1'
 
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
