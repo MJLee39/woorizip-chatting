@@ -13,7 +13,7 @@ spec:
         app: chatting
     spec:
       containers:
-      - name: zip
+      - name: chatting
         image: 211125685751.dkr.ecr.ap-northeast-2.amazonaws.com/woorizip-chatting:20240502005054
         ports:
         - containerPort: 8080
@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-zip
+  name: service-chatting
 spec:
   selector:
     app: chatting
