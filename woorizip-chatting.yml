@@ -5,12 +5,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: chatting
+      app: chattingapp
   replicas: 1
   template:
     metadata:
       labels:
-        app: chatting
+        app: chattingapp
     spec:
       containers:
       - name: chatting
@@ -24,7 +24,7 @@ metadata:
   name: service-chatting
 spec:
   selector:
-    app: chatting
+    app: chattingapp
   ports:
   - protocol: TCP
     port: 80
