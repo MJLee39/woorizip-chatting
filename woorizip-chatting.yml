@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: zip
-        image: 211125685751.dkr.ecr.ap-northeast-2.amazonaws.com/woorizip-chatting:20240501113332
+        image: 211125685751.dkr.ecr.ap-northeast-2.amazonaws.com/woorizip-chatting:20240502005054
         ports:
         - containerPort: 8080
 ---
