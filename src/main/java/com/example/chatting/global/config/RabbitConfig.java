@@ -67,6 +67,7 @@ public class RabbitConfig {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
         connectionFactory.setHost(RABBITMQ_HOST);
         connectionFactory.setPort(RABBITMQ_PORT);
+        connectionFactory.setVirtualHost("/");
         connectionFactory.setUsername(RABBITMQ_USERNAME);
         connectionFactory.setPassword(RABBITMQ_PASSWORD);
 
