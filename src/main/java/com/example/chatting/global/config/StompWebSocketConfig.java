@@ -2,23 +2,11 @@ package com.example.chatting.global.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.messaging.simp.stomp.StompCommand;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
-import org.springframework.messaging.support.ChannelInterceptor;
-import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-
-import net.devh.boot.grpc.client.inject.GrpcClient;
-
-import com.example.grpc.auth.AuthCheckReq;
-import com.example.grpc.auth.AuthServiceGrpc;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,38 +16,38 @@ import lombok.extern.slf4j.Slf4j;
 public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Value("${spring.rabbitmq.host}")
-    private String rabbitMQHost;
+    private String RABBITMQ_HOST;
 
     @Value("${rabbitmq.stomp-port}")
-    private int rabbitMQStompPort;
+    private int RABBITMQ_STOMP_PORT;
 
     @Value("${spring.rabbitmq.username}")
-    private String rabbitMQUsername;
+    private String RABBITMQ_USERNAME;
 
     @Value("${spring.rabbitmq.password}")
-    private String rabbitMQPassword;
+    private String RABBITMQ_PASSWORD;
 
     @Value("${rabbitmq.endpoint}")
-    private String rabbitMQEndPoint;
+    private String RABBITMQ_ENDPOINT;
 
-    @Value("${rabbitmq.exchange.name}")
-    private String rabbitMQExchangeName;
+    @Value("${rabbitmq.destination-prefix}")
+    private String RABBITMQ_DESTINATION_PREFIX;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
-            .addEndpoint(rabbitMQEndPoint)
+            .addEndpoint(RABBITMQ_ENDPOINT)
             .setAllowedOriginPatterns("*")
             .withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableStompBrokerRelay(rabbitMQExchangeName)
-                .setRelayHost(rabbitMQHost)
-                .setRelayPort(rabbitMQStompPort)
-                .setClientLogin(rabbitMQUsername)
-                .setClientPasscode(rabbitMQPassword);
+        config.enableStompBrokerRelay(RABBITMQ_DESTINATION_PREFIX)
+                .setRelayHost(RABBITMQ_HOST)
+                .setRelayPort(RABBITMQ_STOMP_PORT)
+                .setClientLogin(RABBITMQ_USERNAME)
+                .setClientPasscode(RABBITMQ_PASSWORD);
 
         config.setPathMatcher(new AntPathMatcher("."));
         config.setApplicationDestinationPrefixes("/pub");

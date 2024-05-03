@@ -12,6 +12,7 @@ plugins {
     id 'org.springframework.boot' version '3.1.10'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'com.google.protobuf' version "${protobufPluginVersion}"
+    id("build.buf") version "0.8.4"
 }
 
 group = 'com.example'
@@ -24,6 +25,13 @@ java {
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
+    }
+}
+
+buf {
+    configFileLocation = rootProject.file("buf.yaml")
+    generate {
+        includeImports = true
     }
 }
 
@@ -78,22 +86,26 @@ dependencies {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:${protobufVersion}"
-    }
-    generatedFilesBaseDir = "$projectDir/src/generated"
-    clean {
-        delete generatedFilesBaseDir
+        artifact = 'com.google.protobuf:protoc:3.19.1'
     }
     plugins {
         grpc {
-            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.41.0'
         }
     }
     generateProtoTasks {
-        all()*.plugins {
-            grpc {}
+        all().each { task ->
+            task.plugins {
+                grpc {}
+            }
+            task.builtins {
+                java {
+                    outputSubDir = 'java'
+                }
+            }
         }
     }
+    generatedFilesBaseDir = 'src/main/java/gen'
 }
 
 sourceSets {

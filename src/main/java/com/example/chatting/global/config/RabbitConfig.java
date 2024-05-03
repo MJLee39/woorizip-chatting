@@ -75,7 +75,6 @@ public class RabbitConfig {
 
     @Bean
     public Jackson2JsonMessageConverter jsonMessageConverter(){
-        //LocalDateTime serializable을 위해
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
         objectMapper.registerModule(dateTimeModule());

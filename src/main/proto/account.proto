@@ -6,6 +6,8 @@ option java_multiple_files = true;
 option java_package = "com.example.grpc.account";
 option java_outer_classname = "AccountProto";
 
+import "google/api/annotations.proto";
+
 message Account {
   string Id = 1;
   string Provider = 2;

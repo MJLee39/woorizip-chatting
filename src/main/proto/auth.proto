@@ -49,4 +49,3 @@ service AuthService {
   rpc AuthRefresh(AuthRefreshReq) returns (AuthRefreshResp) {} // 토큰 갱신
   rpc AuthLogout(AuthLogoutReq) returns (AuthLogoutResp) {} // 토큰 삭제
 }
-

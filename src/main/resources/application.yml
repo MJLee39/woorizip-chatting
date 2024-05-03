@@ -17,7 +17,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://testaws.teamwaf.app:3306/teamwafdb?useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://woorizip-database.c56y0ki2ky4c.ap-northeast-2.rds.amazonaws.com/teamwafdb?useUnicode=true&serverTimezone=Asia/Seoul
     username: teamwaf
     password: dntmdrhkaudtjd12
   jpa:
@@ -30,24 +30,22 @@ spring:
         format_sql: true
     show-sql: true
   rabbitmq:
-    username: guest
-    password: guest
-    host: testaws.teamwaf.app
+    username: teamwaf
+    password: dntmdrhkaudtjd12
+    host: rabbitmq-stomp-rabbitmq-ha-0.rabbitmq-stomp-rabbitmq-ha-discovery.rabbitmq-stomp.svc.cluster.local
     port: 5672
 rabbitmq:
   stomp-port: 61613
   endpoint: /stomp/chat
   queue.name: chat.queue
   exchange.name: chat.exchange
+  destination-prefix: /exchange
   routing.key: room.*
 
 grpc:
   client:
-#    auth-server:
-#      address: 'static://localhost:50052'
-#      negotiation-type: plaintext
     account-server:
-      address: 'static://localhost:4000'
+      address: 'static://localhost:9094'
       negotiation-type: plaintext
 
 

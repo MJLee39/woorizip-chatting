@@ -1,24 +1,18 @@
 package com.example.chatting.api.service;
 
-import java.util.List;
-import java.util.function.Function;
-
 import org.springframework.stereotype.Service;
 
 import net.devh.boot.grpc.client.inject.GrpcClient;
-
-import com.example.grpc.account.AccountServiceGrpc;
-import com.example.grpc.account.GetAccountReq;
 
 @Service
 public class ChatRoomGrpcService {
 
 	@GrpcClient(value = "account-server")
-	private AccountServiceGrpc.AccountServiceBlockingStub accountServiceBlockingStub;
+	private com.example.grpc.account.AccountServiceGrpc.AccountServiceBlockingStub accountServiceBlockingStub;
 
 	public String getNicknameFromAccountServer(String accountId) {
 		return accountServiceBlockingStub.getAccount(
-			GetAccountReq.newBuilder().setAccountId(accountId).build()
+			com.example.grpc.account.GetAccountReq.newBuilder().setAccountId(accountId).build()
 		).getAccount().getNickname();
 	}
 
