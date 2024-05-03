@@ -30,8 +30,8 @@ spring:
         format_sql: true
     show-sql: true
   rabbitmq:
-    username: teamwaf
-    password: dntmdrhkaudtjd12
+    username: guest
+    password: guest
     host: rabbitmq-stomp-rabbitmq-ha-0.rabbitmq-stomp-rabbitmq-ha-discovery.rabbitmq-stomp.svc.cluster.local
     port: 5672
 rabbitmq:
