@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class ChatRoomService {
 
 	private final ChatRoomRepository chatRoomRepository;
-	private final ChatRoomGrpcService chatRoomGrpcService;
+	// private final ChatRoomGrpcService chatRoomGrpcService;
 
 	public ChatRoomResponseDTO findBy(String chatRoomId) {
 		ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(EntityNotFoundException::new);
