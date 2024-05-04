@@ -2,6 +2,7 @@ package com.example.chatting.global.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -72,7 +73,6 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 //            @Override
 //            public Message<?> preSend(Message<?> message, MessageChannel channel) {
 //                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-//
 //				String token = accessor.getFirstNativeHeader("Authorization");
 //                log.info("Authorization Token : {}", token);
 //
