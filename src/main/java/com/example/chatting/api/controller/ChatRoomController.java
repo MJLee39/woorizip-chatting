@@ -60,7 +60,6 @@ public class ChatRoomController {
             .build()
         );
 
-
         chatMessageRepository.save(new ChatMessage(
             UUID.randomUUID().toString(), chatRoom.getId(),
             "admin", "admin",

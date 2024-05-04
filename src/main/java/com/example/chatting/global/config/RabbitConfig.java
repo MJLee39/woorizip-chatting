@@ -33,6 +33,9 @@ public class RabbitConfig {
     @Value("${spring.rabbitmq.password}")
     private String RABBITMQ_PASSWORD;
 
+    @Value("${rabbitmq.virtual-host}")
+    private String RABBITMQ_VIRTUAL_HOST;
+
     @Value("${rabbitmq.queue.name}")
     private String QUEUE_NAME;
 
@@ -41,6 +44,7 @@ public class RabbitConfig {
 
     @Value("${rabbitmq.routing.key}")
     private String ROUTING_KEY;
+
 
     @Bean
     public Queue queue(){ return new Queue(QUEUE_NAME, true); }
@@ -67,7 +71,7 @@ public class RabbitConfig {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
         connectionFactory.setHost(RABBITMQ_HOST);
         connectionFactory.setPort(RABBITMQ_PORT);
-        connectionFactory.setVirtualHost("/");
+        connectionFactory.setVirtualHost(RABBITMQ_VIRTUAL_HOST);
         connectionFactory.setUsername(RABBITMQ_USERNAME);
         connectionFactory.setPassword(RABBITMQ_PASSWORD);
 

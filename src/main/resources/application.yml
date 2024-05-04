@@ -34,7 +34,6 @@ spring:
     password: dntmdrhkaudtjd12
     host: rabbitmq-stomp-rabbitmq-ha-0.rabbitmq-stomp-rabbitmq-ha-discovery.rabbitmq-stomp.svc.cluster.local
     port: 5672
-    virtual-host: teamwaf_vhost
 rabbitmq:
   stomp-port: 61613
   endpoint: /stomp/chat
@@ -42,6 +41,7 @@ rabbitmq:
   exchange.name: chat.exchange
   destination-prefix: /exchange
   routing.key: room.*
+  virtual-host: teamwaf_vhost
 
 grpc:
   client:
