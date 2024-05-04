@@ -49,6 +49,7 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableStompBrokerRelay(RABBITMQ_DESTINATION_PREFIX)
                 .setRelayHost(RABBITMQ_HOST)
+                .setVirtualHost(RABBITMQ_VIRTUAL_HOST)
                 .setRelayPort(RABBITMQ_STOMP_PORT)
                 .setClientLogin(RABBITMQ_USERNAME)
                 .setClientPasscode(RABBITMQ_PASSWORD);
