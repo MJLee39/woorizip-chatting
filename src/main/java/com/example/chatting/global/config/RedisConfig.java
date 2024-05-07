@@ -7,7 +7,6 @@
  import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
  import org.springframework.data.redis.core.RedisTemplate;
  import org.springframework.data.redis.serializer.StringRedisSerializer;
- import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
  @Configuration
  public class RedisConfig {
@@ -20,6 +19,17 @@
 
      @Bean
      public RedisTemplate<String, String> redisTemplateForReport(RedisConnectionFactory connectionFactory) {
+         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+
+         redisTemplate.setKeySerializer(new StringRedisSerializer());
+         redisTemplate.setValueSerializer(new StringRedisSerializer());
+
+         redisTemplate.setConnectionFactory(connectionFactory);
+         return redisTemplate;
+     }
+
+     @Bean
+     public RedisTemplate<String, String> redisTemplateForReporter(RedisConnectionFactory connectionFactory) {
          RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 
          redisTemplate.setKeySerializer(new StringRedisSerializer());
