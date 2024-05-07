@@ -30,9 +30,9 @@ spring:
         format_sql: true
     show-sql: true
   rabbitmq:
-    username: teamwaf
-    password: dntmdrhkaudtjd12
-    host: rabbitmq-stomp-rabbitmq-ha-0.rabbitmq-stomp-rabbitmq-ha-discovery.rabbitmq-stomp.svc.cluster.local
+    username: guest
+    password: guest
+    host: rabbitmq
     port: 5672
 rabbitmq:
   stomp-port: 61613
@@ -41,7 +41,7 @@ rabbitmq:
   exchange.name: chat.exchange
   destination-prefix: /exchange
   routing.key: room.*
-  virtual-host: teamwaf_vhost
+  virtual-host: /
 
 grpc:
   client:
