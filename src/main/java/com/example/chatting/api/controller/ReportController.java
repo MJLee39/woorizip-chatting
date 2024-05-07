@@ -2,6 +2,7 @@ package com.example.chatting.api.controller;
 
 import com.example.chatting.api.dto.ReportDTO;
 import com.example.chatting.api.service.ReportService;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,12 @@ public class ReportController {
     public ResponseEntity<Long> unlockAccount(@PathVariable(value = "targetId") String targetId) {
         reportService.unlockReport(targetId);
         return ResponseEntity.ok(reportService.checkReportSize(targetId));
+    }
+
+    @CrossOrigin("*")
+    @GetMapping(value = "/{accountId}/list")
+    public ResponseEntity<Set<String>> readReportedNicknameBy(@PathVariable(value = "accountId") String accountId) {
+        return ResponseEntity.ok(reportService.readReportedNicknameBy(accountId));
     }
 
 }

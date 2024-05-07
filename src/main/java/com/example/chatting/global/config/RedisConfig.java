@@ -30,6 +30,17 @@
      }
 
      @Bean
+     public RedisTemplate<String, String> redisTemplateForReporter(RedisConnectionFactory connectionFactory) {
+         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+
+         redisTemplate.setKeySerializer(new StringRedisSerializer());
+         redisTemplate.setValueSerializer(new StringRedisSerializer());
+
+         redisTemplate.setConnectionFactory(connectionFactory);
+         return redisTemplate;
+     }
+
+     @Bean
      public RedisConnectionFactory redisConnectionFactory() {
          return new LettuceConnectionFactory(host, port);
      }

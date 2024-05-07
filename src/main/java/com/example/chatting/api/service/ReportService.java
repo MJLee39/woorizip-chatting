@@ -2,6 +2,7 @@ package com.example.chatting.api.service;
 
 import com.example.chatting.api.dto.ReportDTO;
 import com.example.chatting.domain.report.ReportRepository;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,14 @@ import java.util.List;
 public class ReportService {
 
     private final ReportRepository reportRepository;
+    private final ChatRoomExternalService externalService;
 
     public void addReport(String senderId, String targetId) {
         reportRepository.saveReport(senderId, targetId);
+        reportRepository.saveReportNickname(
+                externalService.getAccountNicknameById(senderId),
+                externalService.getAccountNicknameById(targetId)
+        );
     }
 
     public List<ReportDTO.GetAllReportResponseDTO> getAllReportByAccountId(List<String> accountIdList) {
@@ -33,6 +39,10 @@ public class ReportService {
 
     public void unlockReport(String targetId) {
         reportRepository.unlockReport(targetId);
+    }
+
+    public Set<String> readReportedNicknameBy(String accountId) {
+        return reportRepository.getMyReportList(externalService.getAccountNicknameById(accountId));
     }
 
 }
