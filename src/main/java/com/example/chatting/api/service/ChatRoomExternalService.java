@@ -10,14 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@RequiredArgsConstructor
 @Service
 public class ChatRoomExternalService {
 
-    private final RestTemplate restTemplate;
-
     public String getAccountNicknameById(String accountId) {
         String url = "https://api.teamwaf.app/v1/account/" + accountId;
+        RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<AccountResponse> response = restTemplate.getForEntity(url, AccountResponse.class);
         if (response.getStatusCode().equals(HttpStatus.OK)) {
