@@ -1,14 +1,22 @@
 package com.example.chatting.api.service;
 
+import java.util.Objects;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Service
 public class ChatRoomExternalService {
@@ -19,39 +27,73 @@ public class ChatRoomExternalService {
 
         ResponseEntity<AccountResponse> response = restTemplate.getForEntity(url, AccountResponse.class);
         if (response.getStatusCode().equals(HttpStatus.OK)) {
-            return response.getBody().getNickname();
+            return Objects.requireNonNull(response.getBody()).getAccount().getNickname();
         } else {
             throw new IllegalArgumentException("잘못된 유저 정보입니다.");
         }
     }
 
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @ToString
+    @NoArgsConstructor
     @Getter
     private static class AccountResponse {
 
-        private String Id;
-        private String Provider;
-        private String ProviderUserId;
-        private String Nickname;
-        private String Role;
-        private String LicenseId;
-        private String ProfileImageId;
-        private String PremiumDate;
-        private String Phone;
+        private Account Account;
 
-        @Builder
-        public AccountResponse(String id, String provider, String providerUserId, String nickname, String role, String licenseId, String profileImageId, String premiumDate, String phone) {
-            Id = id;
-            Provider = provider;
-            ProviderUserId = providerUserId;
-            Nickname = nickname;
-            Role = role;
-            LicenseId = licenseId;
-            ProfileImageId = profileImageId;
-            PremiumDate = premiumDate;
-            Phone = phone;
+        @JsonCreator
+        public AccountResponse(@JsonProperty("Account") Account Account) {
+            this.Account = Account;
         }
 
     }
+
+    @ToString
+    @NoArgsConstructor
+    @Getter
+    private static class Account {
+
+        @JsonProperty("Id")
+        @JsonAlias("id")
+        private String Id;
+
+        @JsonProperty("Provider")
+        private String Provider;
+
+        @JsonProperty("ProviderUserId")
+        private String ProviderUserId;
+
+        @JsonProperty("Nickname")
+        private String Nickname;
+
+        @JsonProperty("Role")
+        private String Role;
+
+        @JsonProperty("LicenseId")
+        private String LicenseId;
+
+        @JsonProperty("ProfileImageId")
+        private String ProfileImageId;
+
+        @JsonProperty("PremiumDate")
+        private String PremiumDate;
+
+        @JsonProperty("Phone")
+        private String Phone;
+
+        @Builder
+        public Account(String Id, String Provider, String ProviderUserId, String Nickname, String Role,
+            String LicenseId, String ProfileImageId, String PremiumDate, String Phone) {
+            this.Id = Id;
+            this.Provider = Provider;
+            this.ProviderUserId = ProviderUserId;
+            this.Nickname = Nickname;
+            this.Role = Role;
+            this.LicenseId = LicenseId;
+            this.ProfileImageId = ProfileImageId;
+            this.PremiumDate = PremiumDate;
+            this.Phone = Phone;
+        }
+    }
+
 
 }

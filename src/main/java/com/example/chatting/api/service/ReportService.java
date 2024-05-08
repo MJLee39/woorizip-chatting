@@ -42,7 +42,9 @@ public class ReportService {
     }
 
     public Set<String> readReportedNicknameBy(String accountId) {
-        return reportRepository.getMyReportList(externalService.getAccountNicknameById(accountId));
+        Set<String> nicknameSet = reportRepository.getMyReportList(externalService.getAccountNicknameById(accountId));
+        nicknameSet.forEach(System.out::println);
+        return nicknameSet;
     }
 
 }
