@@ -47,14 +47,13 @@ public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableStompBrokerRelay(RABBITMQ_DESTINATION_PREFIX)
-                .setRelayHost(RABBITMQ_HOST)
-                .setVirtualHost(RABBITMQ_VIRTUAL_HOST)
-                .setRelayPort(RABBITMQ_STOMP_PORT)
-                .setClientLogin(RABBITMQ_USERNAME)
-                .setClientPasscode(RABBITMQ_PASSWORD);
-
-        config.setPathMatcher(new AntPathMatcher("."));
+//        config.enableStompBrokerRelay(RABBITMQ_DESTINATION_PREFIX)
+//                .setRelayHost(RABBITMQ_HOST)
+//                .setVirtualHost(RABBITMQ_VIRTUAL_HOST)
+//                .setRelayPort(RABBITMQ_STOMP_PORT)
+//                .setClientLogin(RABBITMQ_USERNAME)
+//                .setClientPasscode(RABBITMQ_PASSWORD);
+        config.enableSimpleBroker(RABBITMQ_DESTINATION_PREFIX);
         config.setApplicationDestinationPrefixes("/pub");
     }
 

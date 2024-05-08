@@ -13,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -29,15 +32,6 @@ public class ChatMessageService {
 
     public void sendMessage(ChatMessage message) {
         rabbitTemplate.convertAndSend(EXCHANGE_NAME, "room." + message.getChatRoomId(), message);
-    }
-
-    @RabbitListener(queues = "${rabbitmq.queue.name}")
-    public void receiveMessage(ChatMessage message) {
-        log.info(message.toString());
-        message.initChatMessageId(UUID.randomUUID().toString());
-        message.createdAt(LocalDateTime.now());
-        sseEmitters.receiveMessage(message.getChatRoomId(), message);
-        chatMessageRepository.save(message);
     }
 
     public List<ChatMessage> findAllChatMessageBy(String chatRoomId) {

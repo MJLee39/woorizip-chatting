@@ -27,7 +27,7 @@ public class StompRabbitMessageController {
         chatMessageService.sendMessage(chat);
     }
 
-    @MessageMapping("chat.message.{chatRoomId}")
+//    @MessageMapping("chat.message.{chatRoomId}")
     public void send(ChatMessage chat, @DestinationVariable String chatRoomId){
         chatMessageService.sendMessage(chat);
     }
