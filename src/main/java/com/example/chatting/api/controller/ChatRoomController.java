@@ -98,7 +98,8 @@ public class ChatRoomController {
     public ResponseEntity<List<ChatRoomListResponseDTO>> findAllBy(@PathVariable String accountId) {
         List<ChatRoomListResponseDTO> chatRooms = chatRoomService.findAllBy(accountId);
 
-        chatRooms.stream().filter(chatRoomListResponseDTO -> !chatRoomListResponseDTO.getNickname().equals("admin")).forEach(chatRoomResponseDTO -> chatRoomResponseDTO.setRecentMessage(
+        chatRooms.stream().filter(chatRoomListResponseDTO ->
+            !chatRoomListResponseDTO.getNickname().equals("admin")).forEach(chatRoomResponseDTO -> chatRoomResponseDTO.setRecentMessage(
             chatMessageService.findLatestMessageInChatRoom(chatRoomResponseDTO.getId()))
         );
 

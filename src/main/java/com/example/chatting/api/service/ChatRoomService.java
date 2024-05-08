@@ -39,6 +39,7 @@ public class ChatRoomService {
 		return chatRoomRepository.findAllByAgentIdOrClientId(accountId, accountId)
 			.stream().map(chatRoom -> {
 				String otherAccountNickname = externalService.getAccountNicknameById(getOtherAccountId(accountId, chatRoom));
+				System.out.println(otherAccountNickname);
 				return ChatRoomListResponseDTO.fromEntity(chatRoom, otherAccountNickname);
 			}
 		).toList();

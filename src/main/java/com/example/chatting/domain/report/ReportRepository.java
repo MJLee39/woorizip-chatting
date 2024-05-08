@@ -29,7 +29,7 @@ public class ReportRepository {
     }
 
     public Set<String> getMyReportList(String nickname) {
-        return redisTemplateForReporter.opsForSet().getOperations().keys(nickname);
+        return redisTemplateForReporter.opsForSet().getOperations().opsForSet().members(nickname);
     }
 
 }
